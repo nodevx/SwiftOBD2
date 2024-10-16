@@ -585,7 +585,7 @@ func sensorVoltageDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
 }
 
 func sensorVoltageBigDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
-    guard data.count > 3 else {
+    guard data.indices.contains(where: { [2, 3].contains($0) }) else {
         return .failure(.invalidData)
     }
     let value = bytesToInt(data[2 ..< 4])
