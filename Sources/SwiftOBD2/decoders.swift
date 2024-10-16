@@ -399,6 +399,10 @@ func absEvapPressureDecoder(_ data: Data) -> Result<DecodeResult, DecodeError>  
 }
 
 func fuelTypeDecoder(_ data: Data) -> Result<DecodeResult, DecodeError>  {
+    guard data.count > 0 else {
+        return .failure(.invalidData)
+    }
+    
     let i = data[0]
     var value: String?
     if i < FuelTypes.count {
@@ -411,7 +415,12 @@ func fuelTypeDecoder(_ data: Data) -> Result<DecodeResult, DecodeError>  {
 }
 
 func maxMafDecoder(_ data: Data) -> Result<DecodeResult, DecodeError>  {
+    guard data.count > 0 else {
+        return .failure(.invalidData)
+    }
+    
     let value = data[0] * 10
+    
     return .success((.measurementResult(MeasurementResult(value: Double(value), unit: Unit.gramsPerSecond))))
 }
 
@@ -421,6 +430,10 @@ func absoluteLoadDecoder(_ data: Data) -> Result<DecodeResult, DecodeError>  {
 }
 
 func evapPressureDecoder(_ data: Data) -> Result<DecodeResult, DecodeError>  {
+    guard data.count > 1 else {
+        return .failure(.invalidData)
+    }
+    
     let a = twosComp(Int(data[0]), length: 8)
     let b = twosComp(Int(data[1]), length: 8)
 
@@ -467,6 +480,10 @@ func o2SensorsAltDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
 }
 
 func obdComplianceDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
+    guard data.count > 1 else {
+        return .failure(.invalidData)
+    }
+    
     let i = data[1]
 
     if i < OBD_COMPLIANCE.count {
@@ -563,11 +580,14 @@ func currentCenteredDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
 
 // 0 to 1.275 volts
 func sensorVoltageDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
-    let voltage = Double(data[0]) / 200
+    let voltage = Double(data.first ?? 0) / 200
     return .success(.measurementResult(MeasurementResult(value: voltage, unit: UnitElectricPotentialDifference.volts)))
 }
 
 func sensorVoltageBigDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
+    guard data.count > 3 else {
+        return .failure(.invalidData)
+    }
     let value = bytesToInt(data[2 ..< 4])
     let voltage = (Double(value) * 8.0) / 65535
     return .success(.measurementResult(MeasurementResult(value: voltage, unit: UnitElectricPotentialDifference.volts)))
@@ -575,7 +595,7 @@ func sensorVoltageBigDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> 
 
 // 0 to 765 kPa
 func fuelPressureDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
-    var value = Double(data[0])
+    var value = Double(data.first ?? 0)
     value = value * 3
     return .success(.measurementResult(MeasurementResult(value: value, unit: UnitPressure.kilopascals)))
 }
