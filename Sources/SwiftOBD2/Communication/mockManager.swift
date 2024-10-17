@@ -192,6 +192,10 @@ class MOCKComm: CommProtocol {
     func scanForPeripherals() async throws {
 
     }
+    
+    func resetCallbacks() {
+        
+    }
 }
 
 extension OBDCommand {

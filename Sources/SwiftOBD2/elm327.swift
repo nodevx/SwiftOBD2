@@ -232,18 +232,19 @@ class ELM327 {
     func adapterInitialization() async throws {
 //        [.ATZ, .ATD, .ATL0, .ATE0, .ATH1, .ATAT1, .ATRV, .ATDPN]
         self.logger.info("Initializing ELM327 adapter...")
-            do {
-                try await sendCommand("ATZ") // Reset adapter
-                try await okResponse("ATE0") // Echo off
-                try await okResponse("ATL0") // Linefeeds off
-                try await okResponse("ATS0") // Spaces off
-                try await okResponse("ATH1") // Headers off
-                try await okResponse("ATSP0") // Set protocol to automatic
-                self.logger.info("ELM327 adapter initialized successfully.")
-            } catch {
-                self.logger.error("Adapter initialization failed: \(error.localizedDescription)")
-                throw ELM327Error.adapterInitializationFailed
-            }
+        self.comm.resetCallbacks()
+        do {
+            try await sendCommand("ATZ") // Reset adapter
+            try await okResponse("ATE0") // Echo off
+            try await okResponse("ATL0") // Linefeeds off
+            try await okResponse("ATS0") // Spaces off
+            try await okResponse("ATH1") // Headers off
+            try await okResponse("ATSP0") // Set protocol to automatic
+            self.logger.info("ELM327 adapter initialized successfully.")
+        } catch {
+            self.logger.error("Adapter initialization failed: \(error.localizedDescription)")
+            throw ELM327Error.adapterInitializationFailed
+        }
     }
 
     private func setHeader(header: String) async throws {
