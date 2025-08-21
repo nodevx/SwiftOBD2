@@ -20,6 +20,7 @@ struct MockECUSettings {
     var headerOn = true
     var echo = false
     var vinNumber = ""
+    var spacers = false
 }
 
 class MOCKComm: CommProtocol {
@@ -130,6 +131,9 @@ class MOCKComm: CommProtocol {
                 case "E0":
                     ecuSettings.echo = false
                     return ["OK"]
+                case "S0":
+                    ecuSettings.spacers = false
+                    return ["OK"]
                 case "DPN":
                     return ["06"]
                 case "RV":
@@ -191,6 +195,10 @@ class MOCKComm: CommProtocol {
 
     func scanForPeripherals() async throws {
 
+    }
+    
+    func resetCallbacks() {
+        
     }
 }
 

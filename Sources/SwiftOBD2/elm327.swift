@@ -224,18 +224,19 @@ class ELM327 {
     /// - Parameter setupOrder: A list of commands to send in order.
     /// - Throws: Various setup-related errors.
     func adapterInitialization() async throws {
-        //        [.ATZ, .ATD, .ATL0, .ATE0, .ATH1, .ATAT1, .ATRV, .ATDPN]
-        logger.info("Initializing ELM327 adapter...")
+//        [.ATZ, .ATD, .ATL0, .ATE0, .ATH1, .ATAT1, .ATRV, .ATDPN]
+        self.logger.info("Initializing ELM327 adapter...")
+        self.comm.resetCallbacks()
         do {
-            _ = try await sendCommand("ATZ") // Reset adapter
-            _ = try await okResponse("ATE0") // Echo off
-            _ = try await okResponse("ATL0") // Linefeeds off
-            _ = try await okResponse("ATS0") // Spaces off
-            _ = try await okResponse("ATH1") // Headers off
-            _ = try await okResponse("ATSP0") // Set protocol to automatic
-            logger.info("ELM327 adapter initialized successfully.")
+            try await sendCommand("ATZ") // Reset adapter
+            try await okResponse("ATE0") // Echo off
+            try await okResponse("ATL0") // Linefeeds off
+            try await okResponse("ATS0") // Spaces off
+            try await okResponse("ATH1") // Headers off
+            try await okResponse("ATSP0") // Set protocol to automatic
+            self.logger.info("ELM327 adapter initialized successfully.")
         } catch {
-            logger.error("Adapter initialization failed: \(error.localizedDescription)")
+            self.logger.error("Adapter initialization failed: \(error.localizedDescription)")
             throw ELM327Error.adapterInitializationFailed
         }
     }

@@ -364,6 +364,10 @@ class BLEManager: NSObject, CommProtocol {
         try await Task.sleep(nanoseconds: 10_000_000_000)
         stopScan()
     }
+    
+    func resetCallbacks() {
+        sendMessageCompletion = nil
+    }
 
     // MARK: - Utility Methods
 
