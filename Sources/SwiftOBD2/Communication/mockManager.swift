@@ -102,7 +102,8 @@ class MOCKComm: CommProtocol {
             } else {
                 let lengthHex = String(format: "%02X", response.count / 3)
                 response = header + " " + lengthHex + " "  + String(mode) + " " + response
-                while response.count < 28 {
+                let bytes = response.split(separator: " ")
+                while bytes.count < 8 { // ISO-TP single frame: up to 8 bytes total
                     response.append("00 ")
                 }
                 if ecuSettings.echo {
