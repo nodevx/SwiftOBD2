@@ -57,6 +57,7 @@ enum BLEConstants {
 }
 
 class BLEManager: NSObject, CommProtocol, BLEPeripheralManagerDelegate {
+    
     private let peripheralSubject = PassthroughSubject<CBPeripheral, Never>()
     // Replaced with centralized logging - see connectionStateDidChange for usage
 
@@ -349,6 +350,10 @@ class BLEManager: NSObject, CommProtocol, BLEPeripheralManagerDelegate {
                 self.obdDelegate?.connectionStateChanged(state: .disconnected)
             }
         }
+    }
+    
+    func resetCallbacks() {
+        messageProcessor.reset()
     }
 }
 

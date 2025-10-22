@@ -15,6 +15,7 @@ protocol CommProtocol {
     func disconnectPeripheral()
     func connectAsync(timeout: TimeInterval, peripheral: CBPeripheral?) async throws
     func scanForPeripherals() async throws
+    func resetCallbacks()
     var connectionStatePublisher: Published<ConnectionState>.Publisher { get }
     var obdDelegate: OBDServiceDelegate? { get set }
 }
@@ -25,6 +26,7 @@ enum CommunicationError: Error {
 }
 
 class WifiManager: CommProtocol {
+    
     @Published var connectionState: ConnectionState = .disconnected
 
     let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.example.app", category: "wifiManager")
@@ -150,4 +152,6 @@ class WifiManager: CommProtocol {
     }
 
     func scanForPeripherals() async throws {}
+    
+    func resetCallbacks() { }
 }
