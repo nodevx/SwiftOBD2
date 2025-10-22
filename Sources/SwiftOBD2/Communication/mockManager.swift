@@ -225,7 +225,7 @@ extension OBDCommand {
 
                     return "0C" + " " + hexA + " " + hexB
                 case .speed:
-                    let hexSpeed = String(format: "%02X", Int.random(in: 0...100))
+                    let hexSpeed = String(format: "%02X", Int.random(in: 40...60))
                     return "0D" + " " + hexSpeed
                 case .coolantTemp:
                   let temp = Int.random(in: 50...150) + 40
@@ -241,7 +241,7 @@ extension OBDCommand {
 
                     return "10" + " " + hexA + " " + hexB
                 case .engineLoad:
-                    let load = Int.random(in: 0...100)
+                    let load = Int.random(in: 30...40)
                     let hexLoad = String(format: "%02X", load)
                     return "04" + " " + hexLoad
                 case .throttlePos:
@@ -249,7 +249,7 @@ extension OBDCommand {
                     let hexPos = String(format: "%02X", pos)
                     return "11" + " " + hexPos
                 case .fuelLevel:
-                    let level = Int.random(in: 0...100)
+                    let level = Int.random(in: 0...3) + 30
                     let hexLevel = String(format: "%02X", Double(level) * 2.55)
                     return "2F" + " " + hexLevel
                 case .fuelPressure:
@@ -257,7 +257,7 @@ extension OBDCommand {
                     let hexPressure = String(format: "%02X", pressure / 3)
                     return "0A" + " " + hexPressure
                 case .intakeTemp:
-                    let temp = Int.random(in: 0...100) + 40
+                    let temp = Int.random(in: 0...10) + 40
                     let hexTemp = String(format: "%02X", temp)
                     return "0F" + " " + hexTemp
                 case .timingAdvance:
