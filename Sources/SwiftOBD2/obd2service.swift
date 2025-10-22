@@ -52,6 +52,8 @@ public class OBDService: ObservableObject, OBDServiceDelegate {
             ConfigurationService.shared.connectionType = connectionType
         }
     }
+    
+    private var bleManager: BLEManager?
 
     /// The internal ELM327 object responsible for direct adapter interaction.
     private var elm327: ELM327
@@ -70,8 +72,9 @@ public class OBDService: ObservableObject, OBDServiceDelegate {
 #else
         switch connectionType {
         case .bluetooth:
-            let bleManager = BLEManager()
-            elm327 = ELM327(comm: bleManager)
+            let manager = bleManager ?? BLEManager()
+            bleManager = manager
+            elm327 = ELM327(comm: manager)
         case .wifi:
             elm327 = ELM327(comm: WifiManager())
         case .demo:
