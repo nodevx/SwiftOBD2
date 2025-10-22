@@ -249,7 +249,7 @@ extension OBDCommand {
                     let hexPos = String(format: "%02X", pos)
                     return "11" + " " + hexPos
                 case .fuelLevel:
-                    let level = Int.random(in: 70...80)
+                    let level = 70 //Int.random(in: 70...80)
                     let hexLevel = String(format: "%02X", Double(level) * 2.55)
                     return "2F" + " " + hexLevel
                 case .fuelPressure:
