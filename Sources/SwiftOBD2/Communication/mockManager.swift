@@ -283,7 +283,7 @@ extension OBDCommand {
                     let hexB = String(format: "%02X", B)
                     return "23" + " " + hexA + " " + hexB
                 case .ethanoPercent:
-                    let fuel = Int.random(in: 0...100)
+                    let fuel = Int.random(in: 70...80)
                     let hexFuel = String(format: "%02X", fuel)
                     return "52" + " " + hexFuel
                 case .engineOilTemp:
