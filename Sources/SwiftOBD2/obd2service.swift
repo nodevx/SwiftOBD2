@@ -104,6 +104,8 @@ public class OBDService: ObservableObject, OBDServiceDelegate {
         obdInfo("Starting connection with timeout: \(timeout)s", category: .connection)
         
         do {
+            elm327.resetCommCallbacks()
+            
             obdDebug("Connecting to adapter...", category: .connection)
             try await elm327.connectToAdapter(timeout: timeout)
             

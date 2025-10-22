@@ -226,7 +226,6 @@ class ELM327 {
     func adapterInitialization() async throws {
         //        [.ATZ, .ATD, .ATL0, .ATE0, .ATH1, .ATAT1, .ATRV, .ATDPN]
         logger.info("Initializing ELM327 adapter...")
-        comm.resetCallbacks()
         do {
             _ = try await sendCommand("ATZ") // Reset adapter
             _ = try await okResponse("ATE0") // Echo off
@@ -332,6 +331,10 @@ class ELM327 {
                                   options: .regularExpression)
 
         return vinString
+    }
+    
+    func resetCommCallbacks() {
+        comm.resetCallbacks()
     }
 }
 
